@@ -1,4 +1,4 @@
-// stdafx.h : include file for standard system include files,
+п»ї// stdafx.h : include file for standard system include files,
 //  or project specific include files that are used frequently, but
 //      are changed infrequently
 //
@@ -12,7 +12,7 @@
 
 
 // TODO: reference additional headers your program requires here
-// указываем заголовки здесь
+// СѓРєР°Р·С‹РІР°РµРј Р·Р°РіРѕР»РѕРІРєРё Р·РґРµСЃСЊ
 
 #include "windows.h"
 #include "stdio.h"

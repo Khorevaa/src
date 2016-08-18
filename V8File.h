@@ -1,4 +1,4 @@
-/////////////////////////////////////////////////////////////////////////////
+п»ї/////////////////////////////////////////////////////////////////////////////
 //
 //
 //	Author:			disa_da
@@ -15,7 +15,7 @@
 
 //#define AfxMessageBox(A) mb(A,"")
 
-// тест
+// С‚РµСЃС‚
 
 #if !defined(AFX_V8FILE_H__935D5C2B_70FA_45F2_BDF2_A0274A8FD60C__INCLUDED_)
 #define AFX_V8FILE_H__935D5C2B_70FA_45F2_BDF2_A0274A8FD60C__INCLUDED_
@@ -73,7 +73,7 @@ public:
 		DWORD next_page_addr;
 		DWORD page_size;
 		DWORD storage_ver;
-		DWORD reserved; // всегда 0x00000000 ?
+		DWORD reserved; // РІСЃРµРіРґР° 0x00000000 ?
 		static const UINT Size()
 		{
 			return 4 + 4 + 4 + 4;
@@ -84,7 +84,7 @@ public:
 	{
 		DWORD elem_header_addr;
 		DWORD elem_data_addr;
-		DWORD fffffff; //всегда 0x7fffffff ?
+		DWORD fffffff; //РІСЃРµРіРґР° 0x7fffffff ?
 		static const UINT Size()
 		{
 			return 4 + 4 + 4;
@@ -153,9 +153,9 @@ public:
 	{
 		ULONGLONG date_creation;
 		ULONGLONG date_modification;
-		DWORD res; // всегда 0x000000?
-		//изменяемая длина имени блока
-		//после имени DWORD res; // всегда 0x000000?
+		DWORD res; // РІСЃРµРіРґР° 0x000000?
+		//РёР·РјРµРЅСЏРµРјР°СЏ РґР»РёРЅР° РёРјРµРЅРё Р±Р»РѕРєР°
+		//РїРѕСЃР»Рµ РёРјРµРЅРё DWORD res; // РІСЃРµРіРґР° 0x000000?
 		static const UINT Size()
 		{
 			return 8 + 8 + 4;

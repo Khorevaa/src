@@ -1,9 +1,9 @@
-#pragma once
+п»ї#pragma once
 
 #include <string>
 
-// функция кодирует строку в Base64
+// С„СѓРЅРєС†РёСЏ РєРѕРґРёСЂСѓРµС‚ СЃС‚СЂРѕРєСѓ РІ Base64
 std::string base64_encode(unsigned char const*, unsigned int len);
 
-// функция декодирует строку из Base64
+// С„СѓРЅРєС†РёСЏ РґРµРєРѕРґРёСЂСѓРµС‚ СЃС‚СЂРѕРєСѓ РёР· Base64
 std::string base64_decode(std::string const& s);
