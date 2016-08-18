@@ -1,4 +1,4 @@
-/////////////////////////////////////////////////////////////////////////////
+п»ї/////////////////////////////////////////////////////////////////////////////
 //
 //
 //	Author:			disa_da
@@ -265,7 +265,7 @@ int CV8File::Inflate(unsigned char* in_buf, unsigned char** out_buf, unsigned lo
 	unsigned long out_buf_len = in_len + CHUNK;
 	
 
-	// ++ Исправление в соответствии с подсказкой PVS Studio
+	// ++ РСЃРїСЂР°РІР»РµРЅРёРµ РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РїРѕРґСЃРєР°Р·РєРѕР№ PVS Studio
 	//
 	//*out_buf = static_cast<unsigned char*> (realloc(*out_buf, out_buf_len));
 	//
@@ -276,7 +276,7 @@ int CV8File::Inflate(unsigned char* in_buf, unsigned char** out_buf, unsigned lo
 	}
 	else
 		*out_buf = tmp;
-	// -- Исправление в соответствии с подсказкой PVS Studio
+	// -- РСЃРїСЂР°РІР»РµРЅРёРµ РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РїРѕРґСЃРєР°Р·РєРѕР№ PVS Studio
 
 	*out_len = 0; 
 
@@ -313,7 +313,7 @@ int CV8File::Inflate(unsigned char* in_buf, unsigned char** out_buf, unsigned lo
 		{
 			//if (have < sizeof
 			out_buf_len = out_buf_len + sizeof(out);
-			// ++ Исправление в соответствии с подсказкой PVS Studio
+			// ++ РСЃРїСЂР°РІР»РµРЅРёРµ РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РїРѕРґСЃРєР°Р·РєРѕР№ PVS Studio
 			//
 			//*out_buf = static_cast<unsigned char*> (realloc(*out_buf, out_buf_len));
 			//
@@ -324,7 +324,7 @@ int CV8File::Inflate(unsigned char* in_buf, unsigned char** out_buf, unsigned lo
 			}
 			else
 				*out_buf = tmp;
-			// -- Исправление в соответствии с подсказкой PVS Studio
+			// -- РСЃРїСЂР°РІР»РµРЅРёРµ РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РїРѕРґСЃРєР°Р·РєРѕР№ PVS Studio
 
 			if (!out_buf)
 			{
@@ -352,7 +352,7 @@ int CV8File::Deflate(unsigned char* in_buf, unsigned char** out_buf, unsigned lo
 
 	unsigned long out_buf_len = in_len + CHUNK;
 	
-	// ++ Исправление в соответствии с подсказкой PVS Studio
+	// ++ РСЃРїСЂР°РІР»РµРЅРёРµ РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РїРѕРґСЃРєР°Р·РєРѕР№ PVS Studio
 	//
 	//*out_buf = static_cast<unsigned char*> (realloc(*out_buf, out_buf_len));
 	//
@@ -363,7 +363,7 @@ int CV8File::Deflate(unsigned char* in_buf, unsigned char** out_buf, unsigned lo
 	}
 	else
 		*out_buf = tmp;
-	// -- Исправление в соответствии с подсказкой PVS Studio
+	// -- РСЃРїСЂР°РІР»РµРЅРёРµ РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РїРѕРґСЃРєР°Р·РєРѕР№ PVS Studio
 
 	*out_len = 0; 
 
@@ -394,7 +394,7 @@ int CV8File::Deflate(unsigned char* in_buf, unsigned char** out_buf, unsigned lo
 			//if (have < sizeof
 			out_buf_len = out_buf_len + sizeof(out);
 			
-			// ++ Исправление в соответствии с подсказкой PVS Studio
+			// ++ РСЃРїСЂР°РІР»РµРЅРёРµ РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РїРѕРґСЃРєР°Р·РєРѕР№ PVS Studio
 			//
 			//*out_buf = static_cast<unsigned char*> (realloc(*out_buf, out_buf_len));
 			//
@@ -405,7 +405,7 @@ int CV8File::Deflate(unsigned char* in_buf, unsigned char** out_buf, unsigned lo
 			}
 			else
 				*out_buf = tmp;
-			// -- Исправление в соответствии с подсказкой PVS Studio
+			// -- РСЃРїСЂР°РІР»РµРЅРёРµ РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РїРѕРґСЃРєР°Р·РєРѕР№ PVS Studio
 
 			if (!out_buf)
 			{
@@ -491,7 +491,7 @@ int CV8File::LoadFile(BYTE *pFileData, ULONG FileDataSize, bool boolInflate, boo
 		ReadBlockData(pFileData, pBlockHeader, pElems[i].pHeader, &pElems[i].HeaderSize);
 
 
-		//080228 Блока данных может не быть, тогда адрес блока данных равен 0x7fffffff
+		//080228 Р‘Р»РѕРєР° РґР°РЅРЅС‹С… РјРѕР¶РµС‚ РЅРµ Р±С‹С‚СЊ, С‚РѕРіРґР° Р°РґСЂРµСЃ Р±Р»РѕРєР° РґР°РЅРЅС‹С… СЂР°РІРµРЅ 0x7fffffff
 		if (pElemsAddrs[i].elem_data_addr != 0x7fffffff)
 		{
 			pBlockHeader = (stBlockHeader*) &pFileData[pElemsAddrs[i].elem_data_addr];
@@ -532,8 +532,8 @@ int CV8File::LoadFile(BYTE *pFileData, ULONG FileDataSize, bool boolInflate, boo
 				else
 				{
 				*/
-				pElems[i].NeedUnpack = false; // отложенная распаковка не нужна
-				delete[] pElems[i].pData; //нераспакованные данные больше не нужны
+				pElems[i].NeedUnpack = false; // РѕС‚Р»РѕР¶РµРЅРЅР°СЏ СЂР°СЃРїР°РєРѕРІРєР° РЅРµ РЅСѓР¶РЅР°
+				delete[] pElems[i].pData; //РЅРµСЂР°СЃРїР°РєРѕРІР°РЅРЅС‹Рµ РґР°РЅРЅС‹Рµ Р±РѕР»СЊС€Рµ РЅРµ РЅСѓР¶РЅС‹
 				pElems[i].pData = NULL;
 				if (IsV8File(InflateBuffer, InflateSize))
 				{
@@ -718,7 +718,7 @@ int CV8File::UnpackToFolder(char *filename_in, char *dirname, char *UnpackElemWi
 		
 		GetElemName(pElems[ElemNum], ElemName, &ElemNameLen);
 
-		// если передано имя блока для распаковки, пропускаем все остальные
+		// РµСЃР»Рё РїРµСЂРµРґР°РЅРѕ РёРјСЏ Р±Р»РѕРєР° РґР»СЏ СЂР°СЃРїР°РєРѕРІРєРё, РїСЂРѕРїСѓСЃРєР°РµРј РІСЃРµ РѕСЃС‚Р°Р»СЊРЅС‹Рµ
 		if (UnpackElemWithName && strcmp(UnpackElemWithName, ElemName))
 			continue;
 
@@ -841,7 +841,7 @@ int CV8File::ReadBlockData(BYTE *pFileData, stBlockHeader *pBlockHeader, BYTE *&
 
 		read_in_bytes += bytes_to_read;
 
-		if (next_page_addr != 0x7fffffff) // есть следующая страница
+		if (next_page_addr != 0x7fffffff) // РµСЃС‚СЊ СЃР»РµРґСѓСЋС‰Р°СЏ СЃС‚СЂР°РЅРёС†Р°
 			pBlockHeader = (stBlockHeader*) &pFileData[next_page_addr];
 		else
 			break;
@@ -860,7 +860,7 @@ bool CV8File::IsV8File(BYTE *pFileData, ULONG FileDataSize)
 		return false;
 	}
 
-	// проверим чтобы длина файла не была меньше длины заголовка файла и заголовка блока адресов
+	// РїСЂРѕРІРµСЂРёРј С‡С‚РѕР±С‹ РґР»РёРЅР° С„Р°Р№Р»Р° РЅРµ Р±С‹Р»Р° РјРµРЅСЊС€Рµ РґР»РёРЅС‹ Р·Р°РіРѕР»РѕРІРєР° С„Р°Р№Р»Р° Рё Р·Р°РіРѕР»РѕРІРєР° Р±Р»РѕРєР° Р°РґСЂРµСЃРѕРІ
 	if (FileDataSize < stFileHeader::Size() + stBlockHeader::Size()) 
 		return false;
 
@@ -1293,7 +1293,7 @@ int CV8File::LoadFileFromFolder(char* dirname)
 
 			//fprintf(stdout, "LoadFileFromFolder: %s\n", find_data.name);
 
-			pElems[ElemNum].HeaderSize = CV8Elem::stElemHeaderBegin::Size() + strlen(find_data.name) * 2 + 4; // последние четыре всегда нули?
+			pElems[ElemNum].HeaderSize = CV8Elem::stElemHeaderBegin::Size() + strlen(find_data.name) * 2 + 4; // РїРѕСЃР»РµРґРЅРёРµ С‡РµС‚С‹СЂРµ РІСЃРµРіРґР° РЅСѓР»Рё?
 			pElems[ElemNum].pHeader = new BYTE[pElems[ElemNum].HeaderSize];
 
 			memset(pElems[ElemNum].pHeader, 0, pElems[ElemNum].HeaderSize);
@@ -1391,7 +1391,7 @@ int CV8File::SaveFile(char *filename)
 
 
 
-	// Создаем и заполняем данные по адресам элементов
+	// РЎРѕР·РґР°РµРј Рё Р·Р°РїРѕР»РЅСЏРµРј РґР°РЅРЅС‹Рµ РїРѕ Р°РґСЂРµСЃР°Рј СЌР»РµРјРµРЅС‚РѕРІ
 	if (!pElemsAddrs)
 		delete[] pElemsAddrs;
 
@@ -1400,7 +1400,7 @@ int CV8File::SaveFile(char *filename)
 
 	DWORD cur_block_addr = stFileHeader::Size() + stBlockHeader::Size();
 	if (sizeof(stElemAddr) * ElemsNum < 512)
-		cur_block_addr += 512; // 512 - стандартный размер страницы 0x200
+		cur_block_addr += 512; // 512 - СЃС‚Р°РЅРґР°СЂС‚РЅС‹Р№ СЂР°Р·РјРµСЂ СЃС‚СЂР°РЅРёС†С‹ 0x200
 	else
 		cur_block_addr += stElemAddr::Size() * ElemsNum;
 
@@ -1423,13 +1423,13 @@ int CV8File::SaveFile(char *filename)
 	}
 
 
-	// записываем заголовок
+	// Р·Р°РїРёСЃС‹РІР°РµРј Р·Р°РіРѕР»РѕРІРѕРє
 	fwrite(&FileHeader, 1, sizeof(stFileHeader), file_out);
 
-	// записываем адреса элементов
+	// Р·Р°РїРёСЃС‹РІР°РµРј Р°РґСЂРµСЃР° СЌР»РµРјРµРЅС‚РѕРІ
 	SaveBlockData(file_out, (BYTE*) pElemsAddrs, stElemAddr::Size() * ElemsNum);
 
-	// записываем элементы (заголовок и данные)
+	// Р·Р°РїРёСЃС‹РІР°РµРј СЌР»РµРјРµРЅС‚С‹ (Р·Р°РіРѕР»РѕРІРѕРє Рё РґР°РЅРЅС‹Рµ)
 	for(ElemNum = 0; ElemNum < ElemsNum; ElemNum++)
 	{
 		SaveBlockData(file_out, pElems[ElemNum].pHeader, pElems[ElemNum].HeaderSize, pElems[ElemNum].HeaderSize);
@@ -1528,26 +1528,26 @@ int CV8File::GetData(BYTE **DataBuffer, ULONG *DataBufferSize)
 	ULONG NeedDataBufferSize = 0;
 	NeedDataBufferSize += stFileHeader::Size();
 	
-	// заголовок блока и данные блока - адреса элементов с учетом минимальной страницы 512 байт
+	// Р·Р°РіРѕР»РѕРІРѕРє Р±Р»РѕРєР° Рё РґР°РЅРЅС‹Рµ Р±Р»РѕРєР° - Р°РґСЂРµСЃР° СЌР»РµРјРµРЅС‚РѕРІ СЃ СѓС‡РµС‚РѕРј РјРёРЅРёРјР°Р»СЊРЅРѕР№ СЃС‚СЂР°РЅРёС†С‹ 512 Р±Р°Р№С‚
 	NeedDataBufferSize += stBlockHeader::Size() + max(stElemAddr::Size() * ElemsNum, 512); 
 
 	for(ElemNum = 0; ElemNum < ElemsNum; ElemNum++)
 	{
-		// заголовок блока и данные блока - заголовок элемента
+		// Р·Р°РіРѕР»РѕРІРѕРє Р±Р»РѕРєР° Рё РґР°РЅРЅС‹Рµ Р±Р»РѕРєР° - Р·Р°РіРѕР»РѕРІРѕРє СЌР»РµРјРµРЅС‚Р°
 		NeedDataBufferSize += stBlockHeader::Size()  + pElems[ElemNum].HeaderSize; 
 
-		// заголовок блока и данные блока - данные элемента с учетом минимальной страницы 512 байт
+		// Р·Р°РіРѕР»РѕРІРѕРє Р±Р»РѕРєР° Рё РґР°РЅРЅС‹Рµ Р±Р»РѕРєР° - РґР°РЅРЅС‹Рµ СЌР»РµРјРµРЅС‚Р° СЃ СѓС‡РµС‚РѕРј РјРёРЅРёРјР°Р»СЊРЅРѕР№ СЃС‚СЂР°РЅРёС†С‹ 512 Р±Р°Р№С‚
 		NeedDataBufferSize += stBlockHeader::Size()  + max(pElems[ElemNum].DataSize, 512); 
 	}
 
 
-	// Создаем и заполняем данные по адресам элементов
+	// РЎРѕР·РґР°РµРј Рё Р·Р°РїРѕР»РЅСЏРµРј РґР°РЅРЅС‹Рµ РїРѕ Р°РґСЂРµСЃР°Рј СЌР»РµРјРµРЅС‚РѕРІ
 	stElemAddr *pTempElemsAddrs = new stElemAddr[ElemsNum];
 
 
 	DWORD cur_block_addr = stFileHeader::Size() + stBlockHeader::Size();
 	if (stElemAddr::Size() * ElemsNum < 512)
-		cur_block_addr += 512; // 512 - стандартный размер страницы 0x200
+		cur_block_addr += 512; // 512 - СЃС‚Р°РЅРґР°СЂС‚РЅС‹Р№ СЂР°Р·РјРµСЂ СЃС‚СЂР°РЅРёС†С‹ 0x200
 	else
 		cur_block_addr += stElemAddr::Size() * ElemsNum;
 
@@ -1576,14 +1576,14 @@ int CV8File::GetData(BYTE **DataBuffer, ULONG *DataBufferSize)
 	BYTE *cur_pos = *DataBuffer;
 	
 
-	// записываем заголовок
+	// Р·Р°РїРёСЃС‹РІР°РµРј Р·Р°РіРѕР»РѕРІРѕРє
 	memcpy(cur_pos, (BYTE*) &FileHeader, stFileHeader::Size());
 	cur_pos += stFileHeader::Size();
 
-	// записываем адреса элементов
+	// Р·Р°РїРёСЃС‹РІР°РµРј Р°РґСЂРµСЃР° СЌР»РµРјРµРЅС‚РѕРІ
 	SaveBlockDataToBuffer(&cur_pos, (BYTE*) pTempElemsAddrs, stElemAddr::Size() * ElemsNum);
 
-	// записываем элементы (заголовок и данные)
+	// Р·Р°РїРёСЃС‹РІР°РµРј СЌР»РµРјРµРЅС‚С‹ (Р·Р°РіРѕР»РѕРІРѕРє Рё РґР°РЅРЅС‹Рµ)
 	for(ElemNum = 0; ElemNum < ElemsNum; ElemNum++)
 	{
 		SaveBlockDataToBuffer(&cur_pos, pElems[ElemNum].pHeader, pElems[ElemNum].HeaderSize, pElems[ElemNum].HeaderSize);
