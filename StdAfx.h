@@ -12,6 +12,7 @@
 
 
 // TODO: reference additional headers your program requires here
+// указываем заголовки здесь
 
 #include "windows.h"
 #include "stdio.h"
