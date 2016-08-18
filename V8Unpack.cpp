@@ -77,6 +77,55 @@ int main(int argc, char* argv[])
 		return ret;
 	}
 
+	if (cur_mode == "-base64" || cur_mode == "-b")
+	{
+
+		char filename_out[MAX_PATH];
+
+		FILE* file_out = NULL;
+
+		const std::string s = argv[2];
+
+		//std::string encoded = base64_encode(reinterpret_cast<const unsigned char*>(s.c_str()), s.length());
+		std::string decoded = base64_decode(s);
+
+		//std::cout << "encoded: " << encoded << std::endl;
+
+		//sprintf(filename_out, "%s\\%s", "D:\\work\\dev\\cpp\\g.comp\\src\\Debug", "test.txt");
+		sprintf_s(filename_out, "%s\\%s", "D:\\work\\dev\\cpp\\g.comp\\src\\Debug", "test.txt");
+
+		
+		//std::string someString = argc > 1 ? argv[1] : "Hello World";
+		//std::ofstream out(filename_out, std::ios::binary | std::ios::out);
+		std::ofstream out(filename_out, std::ios::out);
+		size_t len = decoded.size();
+		out.write((const char*)&len, 0);
+		out << decoded; // out.write(someString.c_str(), someString.size())
+		out.flush();
+		out.close();
+
+
+		//file_out = fopen(filename_out, "wb");
+		//if (!file_out)
+		//{
+		//	fputs("SaveFile. Error in creating file!", stdout);
+		//	return -1;
+		//}
+		//
+		//fwrite((BYTE*)decoded, 1, decoded.length, file_out);
+		////fwrite(static_cast<void*>(decoded), 1, decoded.length, file_out);
+		//fclose(file_out);
+
+
+
+		//cout << "decoded: " << decoded << std::endl;
+
+		ret = 1;
+
+		return ret;
+	}
+
+
 	if(cur_mode == "-build" || cur_mode == "-b")
 	{
 

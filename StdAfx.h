@@ -21,6 +21,9 @@
 #include "sys/stat.h"
 #include "string"
 #include "assert.h"
+#include "utils\base64.h"
+#include <iostream>
+#include <fstream>
 
 
 //{{AFX_INSERT_LOCATION}}

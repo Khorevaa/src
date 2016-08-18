@@ -171,11 +171,13 @@ public:
 
 	CV8Elem()
 	{
-		pHeader = NULL;
-		pData = NULL;
-		IsV8File = false;
+		pHeader    = NULL;
 		HeaderSize = 0;
-		DataSize = 0;
+		pData      = NULL;
+		DataSize   = 0;
+		IsV8File   = false;
+		NeedUnpack = false;
+		
 	}
 
 	~CV8Elem()

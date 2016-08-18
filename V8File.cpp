@@ -22,9 +22,17 @@
 
 CV8File::CV8File()
 {
-	pElemsAddrs = NULL;
-	pElems = NULL;
+	pElemsAddrs  = NULL;
+	pElems       = NULL;
 	IsDataPacked = true;
+	ElemsNum     = 0;
+	
+	FileHeader.next_page_addr = 0;
+	FileHeader.page_size      = 0;
+	FileHeader.reserved       = 0;
+	FileHeader.storage_ver    = 0;
+
+
 }
 
 
@@ -48,11 +56,28 @@ int CV8File::Inflate(char *in_filename, char *out_filename)
 {
 	int ret;
 
-	FILE *in_file = fopen(in_filename, "rb");
+	//FILE *in_file = fopen(in_filename, "rb");
+	FILE *in_file;
+	#ifdef WIN32
+		fopen_s(&in_file, in_filename, "rb");
+	#else
+		in_file = fopen(in_filename, "rb");
+	#endif
+	
+	
+
 	if (!in_file)
 		return V8UNPACK_INFLATE_IN_FILE_NOT_FOUND;
 	
-	FILE *out_file = fopen(out_filename, "wb");
+	//FILE *out_file = fopen(out_filename, "wb");
+	FILE *out_file;
+	#ifdef WIN32
+		fopen_s(&out_file, out_filename, "wb");
+	#else
+		out_file = fopen(out_filename, "wb");
+	#endif
+
+	
 	if (!out_file)
 	{
 		fclose(in_file);
@@ -77,11 +102,28 @@ int CV8File::Deflate(char *in_filename, char *out_filename)
 
 	int ret;
 
-	FILE *in_file = fopen(in_filename, "rb");
+	//FILE *in_file = fopen(in_filename, "rb");
+	FILE *in_file;
+	#ifdef WIN32
+		fopen_s(&in_file, in_filename, "rb");
+	#else
+		in_file = fopen(in_filename, "rb");
+	#endif
+
+
+	
 	if (!in_file)
 		return V8UNPACK_DEFLATE_IN_FILE_NOT_FOUND;
 
-	FILE *out_file = fopen(out_filename, "wb");
+	//FILE *out_file = fopen(out_filename, "wb");
+	FILE *out_file;
+
+	#ifdef WIN32
+		fopen_s(&out_file, out_filename, "wb");
+	#else
+		out_file = fopen(out_filename, "wb");
+	#endif
+
 	if (!out_file)
 	{
 		fclose(in_file);
@@ -221,7 +263,21 @@ int CV8File::Inflate(unsigned char* in_buf, unsigned char** out_buf, unsigned lo
     unsigned char out[CHUNK];
 
 	unsigned long out_buf_len = in_len + CHUNK;
-	*out_buf = static_cast<unsigned char*> (realloc(*out_buf, out_buf_len));
+	
+
+	// ++ Исправление в соответствии с подсказкой PVS Studio
+	//
+	//*out_buf = static_cast<unsigned char*> (realloc(*out_buf, out_buf_len));
+	//
+	unsigned char *tmp = static_cast<unsigned char*> (realloc(*out_buf, out_buf_len));
+	if (tmp == NULL)
+	{
+		/* Handle exception; maybe throw something */
+	}
+	else
+		*out_buf = tmp;
+	// -- Исправление в соответствии с подсказкой PVS Studio
+
 	*out_len = 0; 
 
 
@@ -257,7 +313,19 @@ int CV8File::Inflate(unsigned char* in_buf, unsigned char** out_buf, unsigned lo
 		{
 			//if (have < sizeof
 			out_buf_len = out_buf_len + sizeof(out);
-			*out_buf = static_cast<unsigned char*> (realloc(*out_buf, out_buf_len));
+			// ++ Исправление в соответствии с подсказкой PVS Studio
+			//
+			//*out_buf = static_cast<unsigned char*> (realloc(*out_buf, out_buf_len));
+			//
+			unsigned char *tmp = static_cast<unsigned char*> (realloc(*out_buf, out_buf_len));
+			if (tmp == NULL)
+			{
+				/* Handle exception; maybe throw something */
+			}
+			else
+				*out_buf = tmp;
+			// -- Исправление в соответствии с подсказкой PVS Studio
+
 			if (!out_buf)
 			{
 				(void)deflateEnd(&strm);
@@ -283,7 +351,20 @@ int CV8File::Deflate(unsigned char* in_buf, unsigned char** out_buf, unsigned lo
     unsigned char out[CHUNK];
 
 	unsigned long out_buf_len = in_len + CHUNK;
-	*out_buf = static_cast<unsigned char*> (realloc(*out_buf, out_buf_len));
+	
+	// ++ Исправление в соответствии с подсказкой PVS Studio
+	//
+	//*out_buf = static_cast<unsigned char*> (realloc(*out_buf, out_buf_len));
+	//
+	unsigned char *tmp = static_cast<unsigned char*> (realloc(*out_buf, out_buf_len));
+	if (tmp == NULL)
+	{
+		/* Handle exception; maybe throw something */
+	}
+	else
+		*out_buf = tmp;
+	// -- Исправление в соответствии с подсказкой PVS Studio
+
 	*out_len = 0; 
 
     // allocate deflate state
@@ -312,7 +393,20 @@ int CV8File::Deflate(unsigned char* in_buf, unsigned char** out_buf, unsigned lo
 		{
 			//if (have < sizeof
 			out_buf_len = out_buf_len + sizeof(out);
-			*out_buf = static_cast<unsigned char*> (realloc(*out_buf, out_buf_len));
+			
+			// ++ Исправление в соответствии с подсказкой PVS Studio
+			//
+			//*out_buf = static_cast<unsigned char*> (realloc(*out_buf, out_buf_len));
+			//
+			unsigned char *tmp = static_cast<unsigned char*> (realloc(*out_buf, out_buf_len));
+			if (tmp == NULL)
+			{
+				/* Handle exception; maybe throw something */
+			}
+			else
+				*out_buf = tmp;
+			// -- Исправление в соответствии с подсказкой PVS Studio
+
 			if (!out_buf)
 			{
 				(void)deflateEnd(&strm);
@@ -525,7 +619,15 @@ int CV8File::UnpackToFolder(char *filename_in, char *dirname, char *UnpackElemWi
 		return -1;
 	}
 
-	FILE *file_in = fopen(filename_in, "rb");
+	//FILE *file_in = fopen(filename_in, "rb");
+	FILE *file_in;
+	
+	#ifdef WIN32
+		fopen_s(&file_in, filename_in, "rb");
+	#else
+		file_in = fopen(filename_in, "rb");
+	#endif
+
 	ret = fread(pFileData, 1, FileDataSize, file_in);
 	if (ret != FileDataSize)
 	{
@@ -536,8 +638,12 @@ int CV8File::UnpackToFolder(char *filename_in, char *dirname, char *UnpackElemWi
 
 	ret = LoadFile(pFileData, FileDataSize, false);
 
+	/* PVS
 	if (pFileData)
 		delete pFileData; 
+	*/
+	if (pFileData)
+		delete [] pFileData;
 
 	if (ret == V8UNPACK_NOT_V8_FILE)
 	{
@@ -563,8 +669,22 @@ int CV8File::UnpackToFolder(char *filename_in, char *dirname, char *UnpackElemWi
 
 	char filename_out[MAX_PATH];
 
-	sprintf(filename_out, "%s\\%s", cur_dir, "FileHeader");
-	file_out = fopen(filename_out, "wb");
+	//sprintf(filename_out, "%s\\%s", cur_dir, "FileHeader");
+	
+	#ifdef WIN32
+		sprintf_s(filename_out, "%s\\%s", cur_dir, "FileHeader");
+	#else
+		sprintf(filename_out, "%s\\%s", cur_dir, "FileHeader");
+	#endif
+
+	//file_out = fopen(filename_out, "wb");
+	
+	#ifdef WIN32
+		fopen_s(&file_out, filename_out, "wb");
+	#else
+		file_out = fopen(filename_out, "wb");
+	#endif
+
 	if (!file_out)
 	{
 		fputs("UnpackToFolder. Error in creating file!\n", stdout);
@@ -602,8 +722,23 @@ int CV8File::UnpackToFolder(char *filename_in, char *dirname, char *UnpackElemWi
 		if (UnpackElemWithName && strcmp(UnpackElemWithName, ElemName))
 			continue;
 
-		sprintf(filename_out, "%s\\%s.%s", cur_dir, ElemName, "header");
-		file_out = fopen(filename_out, "wb");
+		//sprintf(filename_out, "%s\\%s.%s", cur_dir, ElemName, "header");
+		
+		#ifdef WIN32
+			sprintf_s(filename_out, "%s\\%s.%s", cur_dir, ElemName, "header");
+		#else
+			sprintf(filename_out, "%s\\%s.%s", cur_dir, ElemName, "header");
+		#endif
+
+		//file_out = fopen(filename_out, "wb");
+		
+		#ifdef WIN32
+			fopen_s(&file_out, filename_out, "wb");
+		#else
+			file_out = fopen(filename_out, "wb");
+		#endif
+
+		
 		if (!file_out)
 		{
 			fputs("UnpackToFolder. Error in creating file!", stdout);
@@ -612,8 +747,23 @@ int CV8File::UnpackToFolder(char *filename_in, char *dirname, char *UnpackElemWi
 		fwrite(pElems[ElemNum].pHeader,  1, pElems[ElemNum].HeaderSize, file_out);
 		fclose(file_out);
 
-		sprintf(filename_out, "%s\\%s.%s", cur_dir, ElemName, "data");
-		file_out = fopen(filename_out, "wb");
+		//sprintf(filename_out, "%s\\%s.%s", cur_dir, ElemName, "data");
+		
+		#ifdef WIN32
+			sprintf_s(filename_out, "%s\\%s.%s", cur_dir, ElemName, "data");
+		#else
+			sprintf(filename_out, "%s\\%s.%s", cur_dir, ElemName, "data");
+		#endif
+
+		//file_out = fopen(filename_out, "wb");
+		
+		#ifdef WIN32
+			fopen_s(&file_out, filename_out, "wb");
+		#else
+			file_out = fopen(filename_out, "wb");
+		#endif
+
+		
 		if (!file_out)
 		{
 			fputs("UnpackToFolder. Error in creating file!", stdout);
@@ -739,7 +889,8 @@ int CV8File::PackFromFolder(char *dirname, char *filename_out)
 {
 
 	char cur_dir[MAX_PATH];
-	strcpy(cur_dir, dirname);
+	//strcpy(cur_dir, dirname);
+	strcpy_s(cur_dir, dirname);
 
 	struct _finddata_t find_data;
 	long hFind;
@@ -752,15 +903,36 @@ int CV8File::PackFromFolder(char *dirname, char *filename_out)
 
 	char *point_pos;
 
-	sprintf(filename, "%s\\FileHeader", cur_dir);
+	//sprintf(filename, "%s\\FileHeader", cur_dir);
+	
+	#ifdef WIN32
+		sprintf_s(filename, "%s\\FileHeader", cur_dir);
+	#else
+		sprintf(filename, "%s\\FileHeader", cur_dir);
+	#endif
+
 
 	_stat(filename, &stat);
 
-	file_in = fopen(filename, "rb");
+	//file_in = fopen(filename, "rb");
+	
+	#ifdef WIN32
+		fopen_s(&file_in, filename, "rb");
+	#else
+		file_in = fopen(filename, "rb");
+	#endif
+
 	fread(&FileHeader, 1, stat.st_size, file_in);
 	fclose(file_in);
 
-	sprintf(filename, "%s\\*.header", cur_dir);
+	//sprintf(filename, "%s\\*.header", cur_dir);
+	
+	#ifdef WIN32
+		sprintf_s(filename, "%s\\*.header", cur_dir);
+	#else
+		sprintf(filename, "%s\\*.header", cur_dir);
+	#endif
+
 	hFind = _findfirst(filename, &find_data);
 	ElemsNum = 0;
 
@@ -785,24 +957,45 @@ int CV8File::PackFromFolder(char *dirname, char *filename_out)
 		do
 		{
 			
-			sprintf(filename, "%s\\%s", cur_dir, find_data.name);
+			//sprintf(filename, "%s\\%s", cur_dir, find_data.name);
+			
+			#ifdef WIN32
+				sprintf_s(filename, "%s\\%s", cur_dir, find_data.name);
+			#else
+				sprintf(filename, "%s\\%s", cur_dir, find_data.name);
+			#endif
 
 			_stat(filename, &stat);
 			pElems[ElemNum].HeaderSize = stat.st_size;
 			pElems[ElemNum].pHeader = new BYTE[pElems[ElemNum].HeaderSize];
-			file_in = fopen(filename, "rb");
+			//file_in = fopen(filename, "rb");
+			
+			#ifdef WIN32
+				fopen_s(&file_in, filename, "rb");
+			#else
+				file_in = fopen(filename, "rb");
+			#endif
+
 			fread(pElems[ElemNum].pHeader, 1, pElems[ElemNum].HeaderSize, file_in);
 			fclose(file_in);
 
 			
 			point_pos = strrchr(filename, '.');
 			filename[point_pos - filename] = 0;
-			strcat(filename, ".data");
+			//strcat(filename, ".data");
+			strcat_s(filename, ".data");
 
 			_stat(filename, &stat);
 			pElems[ElemNum].DataSize = stat.st_size;
 			pElems[ElemNum].pData = new BYTE[pElems[ElemNum].DataSize];
-			file_in = fopen(filename, "rb");
+			//file_in = fopen(filename, "rb");
+			
+			#ifdef WIN32
+				fopen_s(&file_in, filename, "rb");
+			#else
+				file_in = fopen(filename, "rb");
+			#endif
+
 			fread(pElems[ElemNum].pData, 1, pElems[ElemNum].DataSize, file_in);
 			fclose(file_in);
 
@@ -837,10 +1030,16 @@ int CV8File::SaveBlockData(FILE *file_out, BYTE *pBlockData, UINT BlockDataSize,
 	CurBlockHeader.space1 = 0;
 	CurBlockHeader.space2 = 0;
 	CurBlockHeader.space3 = 0;
-
-	sprintf(CurBlockHeader.data_size_hex, "%08x", BlockDataSize);
-	sprintf(CurBlockHeader.page_size_hex, "%08x", PageSize);
-	sprintf(CurBlockHeader.next_page_addr_hex, "%08x", 0x7fffffff);
+	
+	#ifdef WIN32
+		sprintf_s(CurBlockHeader.data_size_hex, "%08x", BlockDataSize);
+		sprintf_s(CurBlockHeader.page_size_hex, "%08x", PageSize);
+		sprintf_s(CurBlockHeader.next_page_addr_hex, "%08x", 0x7fffffff);
+	#else
+		sprintf(CurBlockHeader.data_size_hex, "%08x", BlockDataSize);
+		sprintf(CurBlockHeader.page_size_hex, "%08x", PageSize);
+		sprintf(CurBlockHeader.next_page_addr_hex, "%08x", 0x7fffffff);
+	#endif
 
 	CurBlockHeader.space1 = ' ';
 	CurBlockHeader.space2 = ' ';
@@ -882,7 +1081,15 @@ int CV8File::Parse(char *filename_in, char *dirname, int level)
 		return -1;
 	}
 
-	FILE *file_in = fopen(filename_in, "rb");
+	//FILE *file_in = fopen(filename_in, "rb");
+	FILE *file_in;
+	
+	#ifdef WIN32
+		fopen_s(&file_in, filename_in, "rb");
+	#else
+		file_in = fopen(filename, "rb");
+	#endif
+
 	ret = fread(pFileData, 1, FileDataSize, file_in);
 	if (ret != FileDataSize)
 	{
@@ -894,8 +1101,12 @@ int CV8File::Parse(char *filename_in, char *dirname, int level)
 	ret = LoadFile(pFileData, FileDataSize);
 	fputs("LoadFile: ok\n", stdout);
 
+	/*
 	if (pFileData)
 		delete pFileData; 
+	*/
+	if (pFileData)
+		delete[] pFileData;
 
 	if (ret == V8UNPACK_NOT_V8_FILE)
 	{
@@ -955,10 +1166,24 @@ int CV8File::SaveFileToFolder(char* dirname)
 
 		GetElemName(pElems[ElemNum], ElemName, &ElemNameLen);
 
-		sprintf(filename_out, "%s\\%s", dirname, ElemName);
+		//sprintf(filename_out, "%s\\%s", dirname, ElemName);
+		
+		#ifdef WIN32
+			sprintf_s(filename_out, "%s\\%s", dirname, ElemName);
+		#else
+			sprintf(filename_out, "%s\\%s", dirname, ElemName);
+		#endif
+
 		if (!pElems[ElemNum].IsV8File)
 		{
-			file_out = fopen(filename_out, "wb");
+			//file_out = fopen(filename_out, "wb");
+			
+			#ifdef WIN32
+				fopen_s(&file_out, filename_out, "wb");
+			#else
+				file_out = fopen(filename_out, "wb");
+			#endif
+			
 			if (!file_out)
 			{
 				fputs("SaveFile. Error in creating file!", stdout);
@@ -1027,7 +1252,14 @@ int CV8File::LoadFileFromFolder(char* dirname)
 	FileHeader.storage_ver = 0;
 	FileHeader.reserved = 0;
 
-	sprintf(filename, "%s\\*", dirname);
+	//sprintf(filename, "%s\\*", dirname);
+	
+	#ifdef WIN32
+		sprintf_s(filename, "%s\\*", dirname);
+	#else
+		sprintf(filename, "%s\\*", dirname);
+	#endif
+
 	hFind = _findfirst(filename, &find_data);
 	ElemsNum = 0;
 
@@ -1071,7 +1303,14 @@ int CV8File::LoadFileFromFolder(char* dirname)
 			if (find_data.attrib & 0x10) // directory
 			{
 				pElems[ElemNum].IsV8File = true;
-				sprintf(new_dirname, "%s\\%s", dirname, find_data.name);
+				//sprintf(new_dirname, "%s\\%s", dirname, find_data.name);
+				
+				#ifdef WIN32
+					sprintf_s(new_dirname, "%s\\%s", dirname, find_data.name);
+				#else
+					sprintf(new_dirname, "%s\\%s", dirname, find_data.name);
+				#endif
+
 				pElems[ElemNum].UnpackedData.LoadFileFromFolder(new_dirname);
 
 			}
@@ -1082,9 +1321,22 @@ int CV8File::LoadFileFromFolder(char* dirname)
 				pElems[ElemNum].DataSize = find_data.size;
 				pElems[ElemNum].pData = new BYTE[pElems[ElemNum].DataSize];
 
-				sprintf(filename, "%s\\%s", dirname, find_data.name);
+				//sprintf(filename, "%s\\%s", dirname, find_data.name);
+				
+				#ifdef WIN32
+					sprintf_s(filename, "%s\\%s", dirname, find_data.name);
+				#else
+					sprintf(filename, "%s\\%s", dirname, find_data.name);
+				#endif
 
-				file_in = fopen(filename, "rb");
+				//file_in = fopen(filename, "rb");
+				
+				#ifdef WIN32
+					fopen_s(&file_in, filename, "rb");
+				#else
+					file_in = fopen(filename, "rb");
+				#endif
+
 				fread(pElems[ElemNum].pData, 1, pElems[ElemNum].DataSize, file_in);
 				fclose(file_in);
 			}
@@ -1123,7 +1375,14 @@ int CV8File::SaveFile(char *filename)
 	FILE* file_out;
 	UINT ElemNum;
 
-	file_out = fopen(filename, "wb");
+	//file_out = fopen(filename, "wb");
+	
+	#ifdef WIN32
+		fopen_s(&file_out, filename, "wb");
+	#else
+		file_out = fopen(filename, "wb");
+	#endif
+
 	if (!file_out)
 	{
 		fputs("SaveFile. Error in creating file!", stdout);
@@ -1360,9 +1619,18 @@ int CV8File::SaveBlockDataToBuffer(BYTE **cur_pos, BYTE *pBlockData, UINT BlockD
 	CurBlockHeader.space2 = 0;
 	CurBlockHeader.space3 = 0;
 
-	sprintf(CurBlockHeader.data_size_hex, "%08x", BlockDataSize);
-	sprintf(CurBlockHeader.page_size_hex, "%08x", PageSize);
-	sprintf(CurBlockHeader.next_page_addr_hex, "%08x", 0x7fffffff);
+	//sprintf(CurBlockHeader.data_size_hex, "%08x", BlockDataSize);
+	//sprintf(CurBlockHeader.page_size_hex, "%08x", PageSize);
+	//sprintf(CurBlockHeader.next_page_addr_hex, "%08x", 0x7fffffff);
+	#ifdef WIN32
+		sprintf_s(CurBlockHeader.data_size_hex, "%08x", BlockDataSize);
+		sprintf_s(CurBlockHeader.page_size_hex, "%08x", PageSize);
+		sprintf_s(CurBlockHeader.next_page_addr_hex, "%08x", 0x7fffffff);
+	#else
+		sprintf(CurBlockHeader.data_size_hex, "%08x", BlockDataSize);
+		sprintf(CurBlockHeader.page_size_hex, "%08x", PageSize);
+		sprintf(CurBlockHeader.next_page_addr_hex, "%08x", 0x7fffffff);
+	#endif
 
 	CurBlockHeader.space1 = ' ';
 	CurBlockHeader.space2 = ' ';
