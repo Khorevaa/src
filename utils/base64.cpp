@@ -25,9 +25,10 @@ René Nyffenegger rene.nyffenegger@adp-gmbh.ch
 
 */
 
+// Переодировка в Base64 и обратно
+
 #include "stdafx.h"
 
-//#include "base64.h"
 #include <iostream>
 
 static const std::string base64_chars =
